@@ -1,0 +1,20 @@
+{
+  "noisy_dir": "/content/data/galaxy_injected_sky/",
+  "clean_dir": "/content/data/model_galaxy_images/",
+  "batch_size": 16,
+  "n_epochs": 50,
+  "initial_learning_rate": 0.001,
+  "checkpoint_dir": "/content/gdrive/MyDrive/Galaxy/autoencoder_14_15_models_512/",
+  "val_split": 0.1,
+  "total_data_count": 11584,
+  "patience": 20,
+  "input_shape": [512, 512, 1],
+  "encoder_filters": [16, 32, 64, 128],
+  "decoder_filters": [8, 32],
+  "encoder_kernel_sizes": [[3, 3], [3, 3], [3, 3], [3, 3]],
+  "decoder_kernel_sizes": [[3, 3], [3, 3]],
+  "pooling_type": "max",
+  "pooling_size": [2, 2],
+  "activation": "leaky_relu",
+  "alpha": 0.1
+}

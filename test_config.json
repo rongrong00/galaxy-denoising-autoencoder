@@ -1,0 +1,8 @@
+{
+    "model_path": "path/to/model.h5",
+    "test_data_dir": "path/to/test_data",
+    "output_dir": "path/to/denoised_images",
+    "residual_dir": "path/to/residual_images",
+    "total_test_data": 500,
+    "batch_size": 16
+  }
