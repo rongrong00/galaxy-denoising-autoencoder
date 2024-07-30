@@ -29,7 +29,7 @@ def create_model(config):
         activation=config['activation'],
         alpha=config['alpha']).model
     optimizer = Adam(learning_rate=config['initial_learning_rate'])
-    model.compile(optimizer=optimizer, loss='mean_squared_error', metrics=['accuracy'])
+    model.compile(optimizer=optimizer, loss= 'mean_absolute_error')
     return model
 
 def setup_data_generators(noisy_dir, clean_dir, batch_size, total_data_count, val_split):
@@ -84,11 +84,11 @@ if __name__ == '__main__':
 
 
     if config['save_intermediate_models']: 
-    model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        filepath=config['checkpoint_dir'] + 'model_{epoch:03d}.h5',
-        save_freq='epoch',
-        save_best_only=False,
-        verbose=1)
+        model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+          filepath=config['checkpoint_dir'] + 'model_{epoch:03d}.h5',
+          save_freq='epoch',
+          save_best_only=False,
+          verbose=1)
 
     best_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=config['checkpoint_dir'] + 'best_model.h5',
@@ -98,6 +98,7 @@ if __name__ == '__main__':
         verbose=1)
 
     # Start model training.
+    
     train_history = model.fit(
         train_generator,
         validation_data=val_generator,
@@ -106,3 +107,4 @@ if __name__ == '__main__':
 
     # Save training history for further analysis.
     np.save(config['checkpoint_dir'] + 'training_history.npy', train_history.history)
+
