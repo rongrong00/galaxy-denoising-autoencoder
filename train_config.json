@@ -7,16 +7,17 @@
   "checkpoint_dir": "/content/gdrive/MyDrive/Galaxy/autoencoder_14_15_models_512/",
   "val_split": 0.1,
   "total_data_count": 11584,
-  "use_early_stopping": "True",
-  "save_intermediate_models": "True",
-  "patience": 20,
+  "use_early_stopping": true,
+  "save_intermediate_models": true,
+  "patience": 30,
   "input_shape": [512, 512, 1],
   "encoder_filters": [16, 32, 64, 128],
   "decoder_filters": [8, 8, 32, 32],
   "encoder_kernel_sizes": [[3, 3], [3, 3], [3, 3], [3, 3]],
   "decoder_kernel_sizes": [[3, 3], [3, 3],[3, 3], [3, 3]],
-  "pooling_type": "max",
+  "pooling_type": "average",
   "pooling_size": [2, 2],
   "activation": "leaky_relu",
-  "alpha": 0.1
+  "alpha": 0.1,
+  "pretrained_model_path": "/path/to/pretrained/model.h5"  
 }
