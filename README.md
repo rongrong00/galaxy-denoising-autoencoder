@@ -22,7 +22,7 @@ Before running the scripts, ensure you have the following installed:
 You can install the necessary Python packages using pip:
 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## File Structure
