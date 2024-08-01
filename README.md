@@ -2,6 +2,15 @@
 
 This project contains a TensorFlow-based Denoising Autoencoder (DAE) to exact model galaxy from observed galaxy images and perform galaxy model subtraction.
 
+## Clone the Repository
+
+Clone this repository to your local machine or cloud service using the following command: 
+
+   ```bash
+   git clone https://github.com/rongrong00/galaxy-denoising-autoencoder.git
+   cd galaxy-denoising-autoencoder
+   ```
+
 ## Prerequisites
 
 Before running the scripts, ensure you have the following installed:
@@ -63,7 +72,7 @@ After generating the simulated galaxy images, the next step is to add a realisti
 
 - **`add_background.py`**: This script adds a clean sky background to the simulated galaxy images. The backgrounds should be free of large galaxies, bright stars, or imaging artifacts.
 
-You need to prepare a set of clean sky background images before running this script. These images can be obtained from observational data or generated using similar simulation techniques.
+Before running this script, You need to prepare a set of clean sky background images. These images can be obtained from observational data or generated using similar simulation techniques.
 
   Run this script as follows:
   ```bash
@@ -78,6 +87,10 @@ The final output of these steps will be a set of images ready for use in trainin
 
 ## Training
 
+### Hardware Requirements 
+
+For reference, training the default model on Google Colab with an L4 GPU takes approximately 3 hours to complete. If the number of parameter increases with your custom configuration, the training may take more computing resources. Please make sure you have access to a GPU device when training. 
+
 ### Train Configuration
 
 The training behavior can be configured through a JSON file (`train_config.json`). This configuration file allows you to specify paths, training parameters, model architecture details, and more. Here is a breakdown of the configurable parameters in training:
@@ -85,6 +98,7 @@ The training behavior can be configured through a JSON file (`train_config.json`
 - **noisy_dir**: Directory containing images of galaxy injected into sky background.
 - **clean_dir**: Directory containing clean simulated galaxy images.
 - **total_data_count**: Total number of images available in the dataset.
+- **pretrained_model_path**: Path to pre-trained model, leave blank if training from scratch. 
 - **input_shape**: Shape of the input images.
 - **batch_size**: Number of images per batch.
 - **n_epochs**: Number of training epochs.
@@ -102,7 +116,7 @@ The training behavior can be configured through a JSON file (`train_config.json`
 - **activation**: Activation function to be used ('relu', 'sigmoid', etc.).
 - **alpha**: Alpha value for LeakyReLU; if not using LeakyReLU, this can be set to null.
 
-The example train_config.json file contains parameters needed to train a denoising autoencoder model on 512*512 image data. 'noisy_dir', 'clean_dir', 'total_data_count', 'input_shapes' need to be modified for identifying user's own training dataset, while the other parameters can either be left as-is or modified to tune the model to fits user's needs. 
+The example train_config.json file contains parameters needed to train a denoising autoencoder model on 512*512 image data. 'noisy_dir', 'clean_dir', 'total_data_count', 'input_shapes' need to be modified for identifying your training dataset. The other parameters can either be left as-is or modified to tune the model to fit your needs. If you want to start training with a pre-trained model or continue training from a model checkpoint, put it in the "pretrained_model_path" configuration. 
 
 ### Running the Training Script
 
@@ -120,13 +134,13 @@ The `test_config.json` file contains settings that are specifically used during 
 
 - **model_path**: Specifies the path to the trained model file. (a `.h5` file containing the weights of your trained model)
 
-- **test_data_dir**: The directory containing the test dataset in FITS format. The script assumes all files in this directory are galaxy images with sky background.
+- **test_data_dir**: The directory containing the test dataset in FITS format. The script assumes all files in this directory are galaxy images with the sky background.
 
 - **output_dir**: Directory where the denoised images produced by the model will be saved. 
 
 - **residual_dir**: Directory where the residual images (original - denoised) will be saved. 
 
-Before testing, modify the configuration file to contain all the path parameters needed in testing, including the path to pretrained model file. 
+Before testing, modify the configuration file to contain all the path parameters needed in testing, including the path to the pre-trained model file. 
 
 ### Running the Testing Script
 
