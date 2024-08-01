@@ -19,7 +19,7 @@ def prepare_test_data_generator(config):
     """
     test_data_dir = config['test_data_dir']
     test_files = sorted([f for f in os.listdir(test_data_dir) if f.endswith('.fits')])
-    test_indices = np.arange(len(test_files))  # Use the number of files instead of total_test_data
+    test_indices = np.arange(len(test_files))  
     batch_size = config['batch_size']
     return FITSDataGenerator(test_data_dir, test_data_dir, test_indices, batch_size, shuffle=False), test_files
 
