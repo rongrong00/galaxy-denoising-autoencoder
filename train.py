@@ -29,7 +29,7 @@ def create_model(config):
         activation=config['activation'],
         alpha=config['alpha']).model
     optimizer = Adam(learning_rate=config['initial_learning_rate'])
-    model.compile(optimizer=optimizer, loss= 'mean_absolute_error')
+    model.compile(optimizer=optimizer, loss='mean_absolute_error')
     return model
 
 def setup_data_generators(noisy_dir, clean_dir, batch_size, total_data_count, val_split):
@@ -55,7 +55,6 @@ def setup_data_generators(noisy_dir, clean_dir, batch_size, total_data_count, va
     train_generator = FITSDataGenerator(noisy_dir, clean_dir, train_indices, batch_size, shuffle=True)
     val_generator = FITSDataGenerator(noisy_dir, clean_dir, val_indices, batch_size, shuffle=False)
     return train_generator, val_generator
-    
 
 if __name__ == '__main__':
 
@@ -73,6 +72,11 @@ if __name__ == '__main__':
 
     model = create_model(config)
 
+    pretrained_model_path = config.get('pretrained_model_path')
+    if pretrained_model_path:
+        model.load_weights(pretrained_model_path)
+        print(f"Loaded pretrained model weights from {pretrained_model_path}")
+
     callbacks = []
 
     if config['use_early_stopping']: 
@@ -82,13 +86,13 @@ if __name__ == '__main__':
             restore_best_weights=True)
         callbacks.append(early_stopping_monitor)
 
-
     if config['save_intermediate_models']: 
         model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
           filepath=config['checkpoint_dir'] + 'model_{epoch:03d}.h5',
           save_freq='epoch',
           save_best_only=False,
           verbose=1)
+        callbacks.append(model_checkpoint_callback)
 
     best_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
         filepath=config['checkpoint_dir'] + 'best_model.h5',
@@ -96,15 +100,14 @@ if __name__ == '__main__':
         monitor='val_loss',
         mode='min',
         verbose=1)
+    callbacks.append(best_checkpoint_callback)
 
     # Start model training.
-    
     train_history = model.fit(
         train_generator,
         validation_data=val_generator,
         epochs=config['n_epochs'],
-        callbacks=[early_stopping_monitor, model_checkpoint_callback, best_checkpoint_callback])
+        callbacks=callbacks)
 
     # Save training history for further analysis.
     np.save(config['checkpoint_dir'] + 'training_history.npy', train_history.history)
-
