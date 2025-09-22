@@ -1,0 +1,11 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite the software release below."
+authors:
+  - family-names: Liu
+    given-names: Rongrong
+    orcid: https://orcid.org/0000-0003-0685-3525
+title: "Galaxy Denoising Autoencoder"
+version: v1.0.0
+date-released: 2025-09-22
+doi: 10.5281/zenodo.17177502
+url: "https://github.com/rongrong00/galaxy-denoising-autoencoder"
